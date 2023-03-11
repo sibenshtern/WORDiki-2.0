@@ -4,15 +4,18 @@ from PyQt5.QtWidgets import QMainWindow, QApplication
 from wordiki_ui import Ui_MainWindow
 from card import Card
 
-#card from new deck
+
+# card from new deck
 def get_new_card():
     return Card("ccc", "ddd")
 
-#card from old deck
+
+# card from old deck
 def get_old_card():
     return Card("aaa", "bbb")
 
-#add card to old deck with new type
+
+# add card to old deck with new type
 def util_card(card, type):
     pass
 
@@ -82,4 +85,3 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     window = MainWindow()
     sys.exit(app.exec())
-
