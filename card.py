@@ -13,6 +13,15 @@ class CardType(Enum):
     LEARNED = 2
 
 
+class Time(Enum):
+    TEN_MINUTES = 10
+    DAY = 24 * 60
+    WEEK = 7 * 24 * 60
+    MONTH = 30 * 24 * 60
+    THREE_MONTHS = 3 * 30 * 24 * 60
+    SIX_MONTHS = 6 * 30 * 24 * 60
+
+
 class SessionManager:
 
     def __init__(self):
@@ -21,23 +30,23 @@ class SessionManager:
 
     def learn_session(self, cards_amount=30):
         cards: list[models.Card] = self.session.query(models.Card) \
-            .filter(models.Card.card_type == 0).all()
+            .filter(models.Card.card_type == CardType.UNLEARNED.value).all()
         cards = cards[-cards_amount:] if len(cards) > cards_amount else cards
         self.current_cards = cards
         shuffle(self.current_cards)
 
     def get_cards_for_repeat(self, learning_type, time) -> list[models.Card]:
         return self.session.query(models.Card) \
-            .filter(((func.julianday("now") - func.julianday(models.Card.last_time)) * 3600 >= 10) &
+            .filter(((func.julianday("now") - func.julianday(models.Card.last_time)) * 3600 >= time.value) &
                     (models.Card.learning_type == learning_type) & (models.Card.card_type == 1)).all()
 
     def repeat_session(self):
-        self.current_cards.extend(self.get_cards_for_repeat(0, 10)[:20])
-        self.current_cards.extend(self.get_cards_for_repeat(1, 24 * 60)[:15])
-        self.current_cards.extend(self.get_cards_for_repeat(2, 7 * 24 * 60)[:10])
-        self.current_cards.extend(self.get_cards_for_repeat(3, 30 * 24 * 60)[:7])
-        self.current_cards.extend(self.get_cards_for_repeat(4, 3 * 30 * 24 * 60)[:5])
-        self.current_cards.extend(self.get_cards_for_repeat(5, 6 * 30 * 24 * 60)[:3])
+        self.current_cards.extend(self.get_cards_for_repeat(0, Time.TEN_MINUTES)[:20])
+        self.current_cards.extend(self.get_cards_for_repeat(1, Time.DAY)[:15])
+        self.current_cards.extend(self.get_cards_for_repeat(2, Time.WEEK)[:10])
+        self.current_cards.extend(self.get_cards_for_repeat(3, Time.MONTH)[:7])
+        self.current_cards.extend(self.get_cards_for_repeat(4, Time.THREE_MONTHS)[:5])
+        self.current_cards.extend(self.get_cards_for_repeat(5, Time.SIX_MONTHS)[:3])
 
     def finish_session(self):
         self.current_cards.clear()
