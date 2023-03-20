@@ -10,21 +10,6 @@ from database.models import Card
 from card import SessionManager
 
 
-# card from new deck
-def get_new_card():
-    return Card("ccc", "ddd")
-
-
-# card from old deck
-def get_old_card():
-    return Card("aaa", "bbb")
-
-
-# add card to old deck with new type
-def util_card(card, type):
-    pass
-
-
 class MainWindow(Ui_MainWindow, QMainWindow):
 
     def __init__(self):
