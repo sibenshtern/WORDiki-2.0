@@ -30,6 +30,8 @@ class MainWindow(Ui_MainWindow, QMainWindow):
         self.good_button.clicked.connect(self.good_card)
         self.back_button.clicked.connect(self.open_main_page)
         self.load_button.clicked.connect(self.load_new_words)
+        self.change_labels_button.clicked.connect(self.open_labels_page)
+        #self.settings_button.clicked.connect(self.open_settings())
         self.show()
 
     def open_settings(self):
@@ -118,6 +120,8 @@ class MainWindow(Ui_MainWindow, QMainWindow):
                 session.commit()
                 session.close()
 
+    def open_labels_page(self):
+        self.stackedWidget.setCurrentIndex(5)
 
 if __name__ == '__main__':
     init('./database.sql')
