@@ -5,21 +5,13 @@ from datetime import datetime, timedelta
 from sqlalchemy.sql import func
 
 from database import create_session, models
+from config import Time
 
 
 class CardType(Enum):
     UNLEARNED = 0
     STUDIED = 1
     LEARNED = 2
-
-
-class Time(Enum):
-    TEN_MINUTES = 10
-    DAY = 24 * 60
-    WEEK = 7 * 24 * 60
-    MONTH = 30 * 24 * 60
-    THREE_MONTHS = 3 * 30 * 24 * 60
-    SIX_MONTHS = 6 * 30 * 24 * 60
 
 
 class SessionManager:
@@ -38,7 +30,7 @@ class SessionManager:
     def get_cards_for_repeat(self, learning_type, time) -> list[models.Card]:
         return self.session.query(models.Card) \
             .filter(((func.julianday("now") - func.julianday(models.Card.last_time)) * 3600 >= time.value) &
-                    (models.Card.learning_type == learning_type) & (models.Card.card_type == 1)).all()
+                    (models.Card.learning_type == learning_type)).all()
 
     def repeat_session(self):
         self.current_cards.extend(self.get_cards_for_repeat(0, Time.TEN_MINUTES)[:20])

@@ -3,11 +3,16 @@ from datetime import datetime
 import csv
 
 from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog
+
+import config
 from wordiki_ui import Ui_MainWindow
+
+from sqlalchemy import exc
 
 from database import init, create_session
 from database.models import Card
 from card import SessionManager
+from config import runtime
 
 
 class MainWindow(Ui_MainWindow, QMainWindow):
@@ -31,8 +36,31 @@ class MainWindow(Ui_MainWindow, QMainWindow):
         self.back_button.clicked.connect(self.open_main_page)
         self.load_button.clicked.connect(self.load_new_words)
         self.change_labels_button.clicked.connect(self.open_labels_page)
-        #self.settings_button.clicked.connect(self.open_settings())
+        self.settings_button.clicked.connect(self.open_settings)
+        self.bad_line_button.clicked.connect(self.bad_label)
+        self.good_line_button.clicked.connect(self.good_label)
+        self.ok_line_button.clicked.connect(self.ok_label)
+        self.return_button.clicked.connect(self.open_settings)
+        self.return_setting_button.clicked.connect(self.open_start_page)
+        self.return_main_button.clicked.connect(self.open_start_page)
+        self.remove_words_button.clicked.connect(self.remove_all_words)
         self.show()
+
+    def remove_all_words(self):
+        self.session_manager.session.query(Card).delete()
+        self.session_manager.session.commit()
+
+    def bad_label(self):
+        self.bad_button.setText(self.bad_line.text())
+
+    def ok_label(self):
+        self.ok_button.setText(self.ok_line.text())
+
+    def good_label(self):
+        self.good_button.setText(self.good_line.text())
+
+    def open_start_page(self):
+        self.stackedWidget.setCurrentIndex(0)
 
     def open_settings(self):
         self.stackedWidget.setCurrentIndex(1)
@@ -60,7 +88,8 @@ class MainWindow(Ui_MainWindow, QMainWindow):
             self.open_main_page()
         else:
             self.card = self.session_manager.current_cards.pop()
-            print(self.card)
+            if runtime == config.DEBUG:
+                print(self.card)
             self.study_word.setText(self.card.word)
 
     def learn_next_card(self):
@@ -117,11 +146,15 @@ class MainWindow(Ui_MainWindow, QMainWindow):
                 reader = csv.reader(file, delimiter=',')
                 for row in reader:
                     session.add(Card(word=row[0], translate=row[1], learning_type=0, card_type=0))
-                session.commit()
+                    try:
+                        session.commit()
+                    except exc.SQLAlchemyError:
+                        pass
                 session.close()
 
     def open_labels_page(self):
         self.stackedWidget.setCurrentIndex(5)
+
 
 if __name__ == '__main__':
     init('./database.sql')

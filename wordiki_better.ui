@@ -18,7 +18,7 @@
     <item>
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
-       <number>5</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="start_page">
        <layout class="QVBoxLayout" name="verticalLayout">
@@ -191,7 +191,7 @@
                <enum>Qt::Vertical</enum>
               </property>
               <property name="sizeType">
-               <enum>QSizePolicy::Preferred</enum>
+               <enum>QSizePolicy::Expanding</enum>
               </property>
               <property name="sizeHint" stdset="0">
                <size>
@@ -227,10 +227,50 @@
             </item>
             <item>
              <widget class="QPushButton" name="change_labels_button">
+              <property name="font">
+               <font>
+                <pointsize>14</pointsize>
+               </font>
+              </property>
               <property name="text">
                <string>Change labels</string>
               </property>
              </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="return_setting_button">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>120</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="layoutDirection">
+               <enum>Qt::RightToLeft</enum>
+              </property>
+              <property name="text">
+               <string>Back</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="verticalSpacer_14">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
             </item>
            </layout>
           </item>
@@ -424,6 +464,28 @@
               </property>
               <property name="text">
                <string>Load new words</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="return_main_button">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>120</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="layoutDirection">
+               <enum>Qt::RightToLeft</enum>
+              </property>
+              <property name="text">
+               <string>Back</string>
               </property>
              </widget>
             </item>
@@ -700,20 +762,13 @@
       </widget>
       <widget class="QWidget" name="labels_page">
        <layout class="QGridLayout" name="gridLayout_3">
-        <item row="1" column="0">
-         <widget class="QLineEdit" name="bad_line">
+        <item row="2" column="0">
+         <widget class="QLineEdit" name="ok_line">
           <property name="minimumSize">
            <size>
             <width>0</width>
             <height>30</height>
            </size>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QPushButton" name="bad_line_button">
-          <property name="text">
-           <string>Change Bad label</string>
           </property>
          </widget>
         </item>
@@ -724,8 +779,8 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="0">
-         <widget class="QLineEdit" name="ok_line">
+        <item row="3" column="0">
+         <widget class="QLineEdit" name="good_line">
           <property name="minimumSize">
            <size>
             <width>0</width>
@@ -747,24 +802,7 @@
           </property>
          </spacer>
         </item>
-        <item row="3" column="1">
-         <widget class="QPushButton" name="good_line_button">
-          <property name="text">
-           <string>Change Good label</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="0">
-         <widget class="QLineEdit" name="good_line">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>30</height>
-           </size>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="0">
+        <item row="5" column="0">
          <spacer name="verticalSpacer_13">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
@@ -776,6 +814,37 @@
            </size>
           </property>
          </spacer>
+        </item>
+        <item row="1" column="1">
+         <widget class="QPushButton" name="bad_line_button">
+          <property name="text">
+           <string>Change Bad label</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QPushButton" name="good_line_button">
+          <property name="text">
+           <string>Change Good label</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLineEdit" name="bad_line">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>30</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="1">
+         <widget class="QPushButton" name="return_button">
+          <property name="text">
+           <string>Return</string>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>
@@ -790,7 +859,7 @@
      <x>0</x>
      <y>0</y>
      <width>1027</width>
-     <height>20</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>
